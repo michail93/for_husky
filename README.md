@@ -75,10 +75,10 @@ Built on Ubuntu , running on Ubuntu 14.04 (64 бит)), то некоторое 
    (директория в которой находится manage.py): ```sudo chown -R $USER:$USER .```
    (согласно ```https://docs.docker.com/compose/django/``` раздел "Create a Django project")
 
-4\. После запуска "docker-compose up" необходимо немного подождать, так как у PostgreSQL 
+4\. После запуска ```docker-compose up``` необходимо немного подождать, так как у PostgreSQL 
     достаточно долгая инициализация, в течении которой Django будет пытаться (безрезультатно) 
     подлючиться к PostgreSQL. Как только PostgreSQL завершит инициализацию, Django успешно 
-    подключится к PostgreSQL, проведет миграции и запустит приложение на локальном 80 порту (localhost:80 или localhost)
+    подключится к PostgreSQL, проведет миграции и запустит приложение на локальном 80 порту (```localhost:80``` или ```localhost```)
     
 5\. Для создания и применения миграций из приложения car_repair_shop необходимо запустить две команды:
   
