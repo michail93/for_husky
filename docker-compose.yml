@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+
+  postgresql:
+    container_name: "postgresql_container"
+    image: postgres:9.6
+    ports:
+      # не получилось отобразить порт 5432 на 5555 ("5555:5432")
+      - "5555:5432"
+    environment:
+       POSTGRES_USER : "michail"
+       POSTGRES_PASSWORD : "1234"
+       POSTGRES_DB : "test"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    restart: always
+  web:
+    container_name: "django_task"
+    build: .
+#    command:  python manage.py runserver 0.0.0.0:8000
+    command: bash -c "python manage.py makemigrations &&  python manage.py migrate && python manage.py runserver 0:8000"
+    ports:
+      - "80:8000"
+    volumes:
+      - .:/test_task
+    depends_on:
+      - postgresql
+    restart: always
+
+volumes:
+  postgres_volume:

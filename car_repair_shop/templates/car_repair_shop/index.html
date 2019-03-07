@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Запись на диагностику</title>
+    <style>
+        #form{
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            margin: -100px 0 0 -200px;
+
+        }
+        #working_hours{
+            background-color: brown;
+            color: azure;
+        }
+    </style>
+</head>
+<body>
+
+
+    <form id="form" action="{% url 'car_repair_shop:index' %}" method="post">
+        {% csrf_token %}
+
+        <h2>Запись на диагностику</h2>
+        <p>Доступно три мастера:<br>Первый - № 1<br>Второй - № 2<br>Третий - № 3</p>
+
+        <h3>Введите свои данные</h3>
+
+        Фамилия : <input type="text" name="surname"><br>
+        Имя : <input type="text" name="name"><br>
+        Отчество : <input type="text" name="patronymic"><br>
+        Марка автомобиля : <input type="text" name="auto_mark"><br>
+        Дата и время записи : <input type="datetime-local" name="date_time"><br>
+        Введите номер Мастера : <input type="text" name="master"><br>
+        <input id="submit" type="button" name="submit" value="Отправить">
+        <br>
+        <p id="working_hours">Автомастерская работает с Понедельника по Пятницу с 10:00 до 20:00<br>Диагностика длится 1 час!</p>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script>
+
+        $(document).ready(function(){
+            $("#submit").on('click', function(){
+
+
+                var surname = $('#form').find('input[name="surname"]').val();
+                var name = $('#form').find('input[name="name"]').val();
+                var patronymic = $('#form').find('input[name="patronymic"]').val();
+                var auto_mark = $('#form').find('input[name=auto_mark]').val();
+                var date_time = $('#form').find('input[name=date_time]').val();
+                var master= $('#form').find('input[name=master]').val();
+
+                console.log(name, auto_mark, date_time, master);
+
+                $.ajax({
+                    url: '', // url where to submit the request
+                    type : "POST", // type of action POST || GET
+                    dataType : 'json', // data type
+                    headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
+                    data:  JSON.stringify({
+                        "patronymic": patronymic,
+                        "surname" :surname,
+                        "name": name,
+                        "auto_mark": auto_mark,
+                        "date_time": date_time,
+                        "master" : master
+                    }, null, 4) ,
+                    contentType: 'application/json',
+                    success : function(result) {
+                        console.log(result);
+                    },
+                    error: function(xhr, resp, text) {
+                        console.log(xhr, resp, text);
+                    }
+                })
+            });
+        });
+    </script>
+</body>
+</html>
