@@ -91,4 +91,4 @@ Built on Ubuntu , running on Ubuntu 14.04 (64 бит)), то некоторое 
     
 7\. Тесты запускаются так:
 
-    docker-compose exec web python manage.py createsuperuser
+    docker-compose exec web python manage.py test
